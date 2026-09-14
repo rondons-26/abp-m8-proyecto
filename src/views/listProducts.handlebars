@@ -1,0 +1,234 @@
+<div class="container py-4">
+    <div class="row g-4">
+    
+        {{> sidebar}}
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="col-12 col-md-9 col-xl-9">
+      
+            <!-- HERO HEADER -->
+            <div class="card border-0 shadow-sm rounded-4 bg-primary text-white py-3 px-4 mb-4">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h4 class="fw-bold mb-1">Gestión de Productos</h4>
+                        <p class="small opacity-75 mb-0">
+                            Administración de catálogo, control de stock y actualización de precios en la tienda.
+                        </p>
+                    </div>
+                    <div class="col-lg-4 text-lg-end mt-2 mt-lg-0">
+                        <button type="button" class="btn btn-light text-primary fw-bold rounded-3 px-3 py-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                            <i class="bi bi-plus-lg me-1"></i> Nuevo Producto
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TABLA PRODUCTOS Y BUSCADOR -->
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+                <div class="p-3 bg-white border-bottom d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="text-secondary fw-semibold small ps-2"><i class="bi bi-filter me-1"></i> Filtros rápidos:</span>
+                    </div>
+                    <div class="w-100" style="max-width: 320px;">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text bg-light border-0 text-muted ps-3 rounded-start-pill">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <input type="text" id="skuSearchInput" class="form-control border-0 bg-light py-2 shadow-none" placeholder="Buscar por SKU (Ej: 95621)..." autocomplete="off">
+                            <button class="btn btn-light text-muted border-0 rounded-end-pill px-3" type="button" id="clearSkuSearch" style="display: none;">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="ps-4">Producto</th>
+                                <th>Descripción</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th class="text-end pe-4">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTableBody">
+                            {{#each products}}
+                            <tr class="product-row" data-sku="{{this.sku}}">
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="rounded-3 overflow-hidden bg-light border d-flex align-items-center justify-content-center text-muted me-3 flex-shrink-0" style="width: 48px; height: 48px;">
+                                            <img src="{{this.imageUrl}}" 
+                                                class="w-100 h-100 object-fit-cover" alt="{{this.name}}"
+                                                onerror="this.onerror=null; this.parentNode.innerHTML='<div class=\'w-100 h-100 d-flex align-items-center justify-content-center text-muted\'><i class=\'bi bi-image\'></i></div>';"
+                                            >
+                                        </div>
+                                        <div>
+                                            <strong class="d-block text-dark">{{this.name}}</strong>
+                                            <span class="badge bg-light text-secondary border font-monospace px-2 py-0.5 mt-1" style="font-size: 0.7rem;">
+                                                <i class="bi bi-upc-scan me-1"></i>{{this.sku}}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <small class="text-muted text-truncate d-inline-block" style="max-width: 220px;">{{this.description}}</small>
+                                </td>
+                                <td class="fw-bold text-primary">{{formatCLP this.price}}</td>
+                                <td>
+                                    <span class="badge {{#if this.stock}}bg-success-subtle text-success border border-success-subtle{{else}}bg-danger-subtle text-danger border border-danger-subtle{{/if}} px-2 py-1 rounded-2">
+                                        {{this.stock}} un.
+                                    </span>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <button 
+                                        class="btn btn-sm btn-outline-warning me-1 rounded-2 btn-edit-product"
+                                        data-id="{{this.id}}"
+                                        data-name="{{this.name}}"
+                                        data-description="{{this.description}}"
+                                        data-price="{{this.price}}"
+                                        data-stock="{{this.stock}}"
+                                        data-sku="{{this.sku}}">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button 
+                                        class="btn btn-sm btn-outline-danger btn-delete-product rounded-2" 
+                                        data-id="{{this.id}}"
+                                        data-name="{{this.name}}">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {{else}}
+                            <tr id="noProductsRow">
+                                <td colspan="5" class="text-center py-5 text-muted">
+                                    <i class="bi bi-box-seam display-6 d-block mb-2 text-secondary opacity-50"></i>
+                                    No hay productos registrados en la base de datos.
+                                </td>
+                            </tr>
+                            {{/each}}
+
+                            <tr id="noSearchMatchRow" style="display: none;">
+                                <td colspan="5" class="text-center py-4 text-muted">
+                                    <i class="bi bi-search display-6 d-block mb-2 text-secondary opacity-50"></i>
+                                    No se encontró ningún producto con ese SKU.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- MODAL AGREGAR PRODUCTOS -->
+<div class="modal fade" id="addProductModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="modal-header bg-primary text-white p-4">
+                <h5 class="modal-title fw-bold"><i class="bi bi-box-seam me-2"></i>Nuevo Producto</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4 bg-white">
+                <form id="addProductForm" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="addName" class="form-label fw-bold">Nombre del Producto</label>
+                        <input type="text" class="form-control rounded-3" id="addName" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="addDescription" class="form-label fw-bold">Descripción</label>
+                        <textarea class="form-control rounded-3" id="addDescription" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label for="addPrice" class="form-label fw-bold">Precio ($)</label>
+                            <input type="number" step="0.01" class="form-control rounded-3" id="addPrice" name="price" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="addStock" class="form-label fw-bold">Stock Disponible</label>
+                            <input type="number" class="form-control rounded-3" id="addStock" name="stock" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="addImage" class="form-label fw-bold">Imagen del Producto</label>
+                        <input type="file" class="form-control rounded-3" id="addImage" name="image" accept="image/*">
+                    </div>
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="button" class="btn btn-outline-secondary rounded-3" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary rounded-3 px-4 fw-bold">Guardar Producto</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL EDITAR PRODUCTO -->
+<div class="modal fade" id="editProductModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="modal-header bg-warning text-dark p-4">
+                <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square me-2"></i>Editar Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4 bg-white">
+                <form id="editProductForm" enctype="multipart/form-data">
+                    <input type="hidden" id="editProductId" name="id">
+                    <div class="mb-3">
+                        <label for="editName" class="form-label fw-bold">Nombre del Producto</label>
+                        <input type="text" class="form-control rounded-3" id="editName" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDescription" class="form-label fw-bold">Descripción</label>
+                        <textarea class="form-control rounded-3" id="editDescription" name="description" rows="3"></textarea>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label for="editPrice" class="form-label fw-bold">Precio ($)</label>
+                            <input type="number" step="0.01" class="form-control rounded-3" id="editPrice" name="price" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="editStock" class="form-label fw-bold">Stock Disponible</label>
+                            <input type="number" class="form-control rounded-3" id="editStock" name="stock" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="editImage" class="form-label fw-bold">Reemplazar Imagen (Opcional)</label>
+                        <input type="file" class="form-control rounded-3" id="editImage" name="image" accept="image/*">
+                    </div>
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="button" class="btn btn-outline-secondary rounded-3" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-warning rounded-3 px-4 fw-bold">Actualizar Producto</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CONFIRMAR ELIMINACIÓN -->
+<div class="modal fade" id="deleteProductModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+            <div class="modal-header bg-danger text-white p-4">
+                <h5 class="modal-title fw-bold">
+                    <i class="bi bi-exclamation-triangle me-2"></i>Eliminar Producto
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4 bg-white text-center">
+                <p class="mb-1 text-secondary">¿Estás seguro de que deseas eliminar este producto?</p>
+                <h6 id="deleteProductName" class="fw-bold text-dark my-2"></h6>
+                <small class="text-danger d-block mt-2">Esta acción no se puede deshacer.</small>
+            </div>
+            <div class="modal-footer bg-light p-3 border-0 d-flex justify-content-center gap-2">
+                <button type="button" class="btn btn-outline-secondary rounded-3 px-4" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" id="confirmDeleteBtn" class="btn btn-danger rounded-3 px-4 fw-bold">Eliminar Definitivamente</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/assets/js/adminProducts.js"></script>

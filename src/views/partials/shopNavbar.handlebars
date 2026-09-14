@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm py-2">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+            <i class="bi bi-cpu-fill text-primary fs-4"></i>
+            <span class="fw-bold text-dark">CoreApp <small class="fw-normal text-muted">Enterprise</small></span>
+        </a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#shopNavbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="shopNavbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!-- ESPACIO PARA ALINEACIÓN -->
+            </ul>
+            <!-- LADO DERECHO - CARRITO + INICIAR SESIÓN / PERFIL / ADMIN -->
+            <div class="d-flex align-items-center gap-3" id="shopNavbarRightContainer">
+                <!-- ÍCONO CARRITO (SE OCULTA SOLO SI ES ADMIN) -->
+                {{#unless hideCart}}
+                <a href="/cart" id="cartIconLink" class="text-dark position-relative d-inline-flex align-items-center p-2 text-decoration-none" title="Ver carrito">
+                    <i class="bi bi-cart3 fs-5"></i>
+                    <span id="navCartBadge" class="position-absolute top-7 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.65rem; padding: 0.25em 0.4em;">
+                        0
+                    </span>
+                </a>
+                {{/unless}}
+        
+                <div id="userMenuContainer" class="d-flex align-items-center">
+                    <a href="/login" class="btn btn-primary btn-sm rounded-pill px-3 py-1 fw-semibold d-flex align-items-center gap-1">
+                        <i class="bi bi-person-circle fs-6"></i>
+                        <span class="small">Iniciar Sesión</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

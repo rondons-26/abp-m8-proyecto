@@ -1,0 +1,191 @@
+<div class="container py-5">
+    <div class="row g-4">
+    
+        <!-- TARJETA LATERAL PERFIL -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 text-center p-4">
+        
+                <!-- CONTENEDOR INTERACTIVO DEL AVATAR -->
+                <div class="position-relative d-inline-block mx-auto mb-3" id="avatarContainer" style="cursor: pointer;" title="Haz clic para cambiar tu foto de perfil">
+                    <div id="profileAvatarContainer" class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center shadow-sm overflow-hidden mx-auto" style="width: 90px; height: 90px; font-size: 2.5rem;">
+                        <i class="bi bi-person-fill" id="defaultAvatarIcon"></i>
+                        <img id="profileAvatarImg" 
+                            src="" 
+                            alt="Avatar" 
+                            class="w-100 h-100 object-fit-cover d-none"
+                            >
+                    </div>
+
+                    <div class="position-absolute top-0 start-0 w-100 h-100 rounded-circle bg-dark bg-opacity-50 d-flex flex-column align-items-center justify-content-center text-white opacity-0 transition-opacity" id="avatarOverlay" style="transition: opacity 0.2s ease-in-out;">
+                        <i class="bi bi-camera fs-5"></i>
+                    </div>
+
+                    <input type="file" id="hiddenAvatarInput" name="profileImage" accept="image/*" class="d-none">
+                </div>
+
+                <h4 class="fw-bold mb-1" id="cardName">Cargando...</h4>
+                <p class="text-muted small mb-2" id="cardEmail">...</p>
+        
+                <div class="d-flex justify-content-center align-items-center gap-2 flex-wrap">
+                    <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill" id="cardRole">CLIENTE</span>
+                    <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" data-bs-toggle="modal" data-bs-target="#changePasswordModal" title="Cambiar contraseña">
+                        <i class="bi bi-key me-1"></i> Contraseña
+                    </button>
+                </div>
+
+                <hr class="my-4">
+            </div>
+        </div>
+
+        <!-- PANEL PRINCIPAL NAVEGACIÓN -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+                <div class="card-header bg-white border-bottom p-0">
+                    <ul class="nav nav-tabs nav-justified border-0" id="profileTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active fw-semibold py-3 border-0 border-bottom border-2 border-primary" id="info-tab" data-bs-toggle="tab" data-bs-target="#info-tab-pane" type="button" role="tab">
+                                <i class="bi bi-person-badge me-2"></i>Editar Información
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link text-muted fw-semibold py-3 border-0" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders-tab-pane" type="button" role="tab">
+                                <i class="bi bi-bag-check me-2"></i>Mis Compras
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body p-4">
+                    <div class="tab-content" id="profileTabsContent">
+            
+                        <!-- PESTAÑA 1: EDITAR INFORMACIÓN PERSONAL -->
+                        <div class="tab-pane fade show active" id="info-tab-pane" role="tabpanel">
+                            <h5 class="fw-bold mb-4">Actualizar Datos de la Cuenta</h5>
+                            <form id="updateProfileForm" enctype="multipart/form-data">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small fw-bold">Nombre</label>
+                                        <input type="text" class="form-control rounded-3" id="inputFirstname" name="firstname" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small fw-bold">Apellido</label>
+                                        <input type="text" class="form-control rounded-3" id="inputLastname" name="lastname" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small fw-bold">Correo Electrónico (No modificable)</label>
+                                        <input type="email" class="form-control rounded-3 bg-light" id="inputEmail" name="email" disabled>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small fw-bold">RUT  (No modificable)</label>
+                                        <input type="text" class="form-control rounded-3" id="inputRut" name="rut" placeholder="Ej: 12.345.678-9">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small fw-bold">Teléfono</label>
+                                        <input type="text" class="form-control rounded-3" id="inputPhone" name="phone" placeholder="Ej: +56912345678">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small fw-bold">Dirección</label>
+                                        <input type="text" class="form-control rounded-3" id="inputAddress" name="address" placeholder="Ej: Av. Libertador 123">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small fw-bold">Región</label>
+                                        <input type="text" class="form-control rounded-3" id="inputRegion" name="region" placeholder="Ej: O'Higgins">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small fw-bold">Comuna</label>
+                                        <input type="text" class="form-control rounded-3" id="inputCommune" name="commune" placeholder="Ej: Rancagua">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label text-muted small fw-bold">Tipo de Usuario</label>
+                                        <input type="text" class="form-control rounded-3 bg-light" id="inputRole" disabled>
+                                    </div>
+                                    <div class="col-12 mt-4">
+                                        <button type="submit" class="btn btn-primary rounded-3 px-4 py-2">
+                                            <i class="bi bi-save me-2"></i>Guardar Cambios
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- PESTAÑA 2: HISTORIAL DE COMPRAS -->
+                        <div class="tab-pane fade" id="orders-tab-pane" role="tabpanel">
+                            <h5 class="fw-bold mb-4">Historial de Órdenes</h5>
+                            <div id="ordersContainer">
+                                <p class="text-muted">Cargando tus compras...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL CAMBIAR CONTRASEÑA -->
+<div class="modal fade" id="changePasswordModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+            <div class="modal-header bg-dark text-white p-4">
+                <h5 class="modal-title fw-bold"><i class="bi bi-key-fill me-2"></i>Cambiar Contraseña</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4 bg-white">
+                <form id="changePasswordForm">
+                    <div class="mb-3 position-relative">
+                        <label for="currentPassword" class="form-label small fw-bold">Contraseña Actual</label>
+                        <input type="password" class="form-control rounded-3 pe-5" id="currentPassword" placeholder="Ingresa tu contraseña actual" required>
+                        <button 
+                            type="button" 
+                            class="btn btn-link text-secondary position-absolute top-50 end-0 translate-middle-y me-2 text-decoration-none border-0 bg-transparent mt-3 toggle-password" 
+                            data-target="currentPassword"
+                            tabindex="-1"
+                            >
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3 position-relative">
+                            <label for="newPassword" class="form-label small fw-bold">Nueva Contraseña</label>
+                            <input type="password" class="form-control rounded-3 pe-5" id="newPassword" placeholder="Mínimo de seguridad" required>
+                            <button 
+                                type="button" 
+                                class="btn btn-link text-secondary position-absolute top-50 end-0 translate-middle-y me-2 text-decoration-none border-0 bg-transparent mt-3 toggle-password" 
+                                data-target="newPassword"
+                                tabindex="-1"
+                                >
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+
+                        <div class="col-md-6 mb-3 position-relative">
+                            <label for="confirmPassword" class="form-label small fw-bold">Confirmar Contraseña</label>
+                            <input type="password" class="form-control rounded-3 pe-5" id="confirmPassword" placeholder="Repite la contraseña" required>
+                            <button 
+                                type="button" 
+                                class="btn btn-link text-secondary position-absolute top-50 end-0 translate-middle-y me-2 text-decoration-none border-0 bg-transparent mt-3 toggle-password" 
+                                data-target="confirmPassword"
+                                tabindex="-1"
+                                >
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- MENSAJE COINCIDENCIA-->
+                    <div class="mb-4">
+                        <small id="clientPasswordMatchMsg" class="d-none fw-semibold"></small>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="button" class="btn btn-outline-secondary rounded-3" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-dark rounded-3 px-4 fw-bold">Actualizar Contraseña</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/assets/js/clientProfile.js"></script>

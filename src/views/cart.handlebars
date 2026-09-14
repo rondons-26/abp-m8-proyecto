@@ -1,0 +1,42 @@
+<div class="container py-4">
+    <div class="mb-4">
+        <h2 class="h3 fw-bold text-dark mb-1">Mi Carrito de Compras</h2>
+        <p class="text-secondary small">Revisa los artículos de tu orden antes de confirmar el pago.</p>
+    </div>
+
+    <div class="row g-4">
+        <!-- LISTA PRODUCTOS -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                <div id="cartItemsContainer">
+                    <!-- SE LLENA CON JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- RESUMEN DE PAGO -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white sticky-top" style="top: 90px;">
+                <h5 class="fw-bold mb-3">Resumen de Compra</h5>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="text-secondary">Subtotal</span>
+                    <strong id="cartSubtotal" class="text-dark">$0.00</strong>
+                </div>
+                <div class="d-flex justify-content-between mb-3">
+                    <span class="text-secondary">Envío</span>
+                    <span class="text-success fw-semibold">Gratis</span>
+                </div>
+                <hr class="my-3">
+                <div class="d-flex justify-content-between mb-4">
+                    <span class="fs-5 fw-bold text-dark">Total</span>
+                    <span class="fs-4 fw-bold text-primary" id="cartTotal">$0.00</span>
+                </div>
+                <button id="checkoutBtn" class="btn btn-primary w-100 py-3 rounded-3 fw-bold">
+                    <i class="bi bi-credit-card me-2"></i> Confirmar y Pagar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/assets/js/cart.js"></script>

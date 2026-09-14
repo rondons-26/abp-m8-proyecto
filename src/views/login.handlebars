@@ -1,0 +1,70 @@
+<div class="container py-5">
+    <div class="row justify-content-center align-items-center min-vh-75">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-5 col-xl-4">
+    
+            <!-- TARJETA PRINCIPAL -->
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <!-- HEADER -->
+                <div class="card-header bg-primary bg-gradient text-white text-center py-4 border-0">
+                    <div class="mb-2">
+                        <i class="bi bi-shield-lock-fill display-5"></i>
+                    </div>
+                    <h4 class="fw-bold mb-1">Bienvenido de nuevo</h4>
+                    <p class="small text-white-50 mb-0">Ingresa tus credenciales para acceder</p>
+                </div>
+
+                <!-- BODY -->
+                <div class="card-body p-4 p-sm-5 bg-white">
+                    <form id="loginForm" novalidate>
+                        <div class="form-floating mb-3">
+                            <input 
+                                type="email" 
+                                class="form-control rounded-3" 
+                                id="email" 
+                                placeholder="nombre@ejemplo.com" 
+                                required
+                            />
+                            <label for="email"><i class="bi bi-envelope me-2"></i>Correo Electrónico</label>
+                        </div>
+
+                        <div class="form-floating mb-3 position-relative">
+                            <input 
+                                type="password" 
+                                class="form-control rounded-3" 
+                                id="password" 
+                                placeholder="Contraseña" 
+                                required
+                            />
+                            <label for="password"><i class="bi bi-key me-2"></i>Contraseña</label>
+                            <button 
+                                type="button"
+                                id="togglePassword"
+                                tabindex="-1" 
+                                class="btn btn-link text-secondary position-absolute top-50 end-0 translate-middle-y me-2 text-decoration-none"  
+                                >
+                                <i class="bi bi-eye-slash" id="toggleIcon"></i>
+                            </button>
+                        </div>
+
+                        <div id="loginAlertContainer" class="mb-3 d-none"></div>
+
+                        <button type="submit" class="btn btn-primary bg-gradient w-100 py-3 rounded-3 fw-bold shadow-sm transition-all hover-lift">
+                            <span>Iniciar Sesión</span>
+                            <i class="bi bi-arrow-right-short ms-1 fs-5 align-middle"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- FOOTER TARJETA -->
+                <div class="card-footer bg-light text-center py-3 border-0">
+                    <p class="small text-muted mb-0">
+                        ¿No tienes una cuenta? 
+                        <a href="/register" class="text-primary fw-semibold text-decoration-none">Regístrate aquí</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/assets/js/login.js"></script>

@@ -1,0 +1,31 @@
+<aside class="col-12 col-md-3 col-xl-3">
+    <div class="card border-0 shadow-sm rounded-4 p-3 sticky-top" style="top: 90px; z-index: 10;">
+        <div class="text-center py-2 mb-2 border-bottom">
+            <i class="bi bi-speedometer2 text-primary display-6"></i>
+            <h6 class="fw-bold mt-2 mb-0">Panel de Control</h6>
+            <small class="text-muted">Administración</small>
+        </div>
+
+        <nav class="nav nav-pills flex-column gap-2 mt-3">
+            <a class="nav-link rounded-3 py-2 fw-medium d-flex align-items-center {{#if activeDashboard}}bg-primary bg-opacity-10 text-primary fw-bold{{else}}text-dark hover-bg-light{{/if}}" href="/admin/dashboard">
+                <i class="bi bi-grid-1x2-fill me-2 fs-5"></i> Dashboard
+            </a>
+            <a class="nav-link rounded-3 py-2 fw-medium d-flex align-items-center {{#if activeUsers}}bg-primary bg-opacity-10 text-primary fw-bold{{else}}text-dark hover-bg-light{{/if}}" href="/admin/users">
+                <i class="bi bi-people-fill me-2 fs-5 text-primary"></i> Gestión Usuarios
+            </a>
+            <a class="nav-link rounded-3 py-2 fw-medium d-flex align-items-center {{#if activeProducts}}bg-primary bg-opacity-10 text-primary fw-bold{{else}}text-dark hover-bg-light{{/if}}" href="/admin/products">
+                <i class="bi bi-box-seam-fill me-2 fs-5 text-success"></i> Gestión Productos
+            </a>
+            <a class="nav-link rounded-3 py-2 fw-medium d-flex align-items-center {{#if activeOrders}}bg-primary bg-opacity-10 text-primary fw-bold{{else}}text-dark hover-bg-light{{/if}}" href="/admin/orders">
+                <i class="bi bi-bag-check-fill me-2 fs-5 text-warning"></i> Pedidos Clientes
+            </a>
+            <a class="nav-link rounded-3 py-2 fw-medium d-flex align-items-center {{#if activeStatus}}bg-primary bg-opacity-10 text-primary fw-bold{{else}}text-dark hover-bg-light{{/if}}" href="/admin/status">
+                <i class="bi bi-hdd-network-fill me-2 fs-5 text-info"></i> Estado Servidor
+            </a>
+            <hr class="my-2">
+            <a class="nav-link text-dark rounded-3 py-2 fw-medium d-flex align-items-center hover-bg-light" href="/shop">
+                <i class="bi bi-shop me-2 fs-5 text-secondary"></i> Ir a la Tienda
+            </a>
+        </nav>
+    </div>
+</aside>

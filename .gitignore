@@ -1,0 +1,6 @@
+node_modules/
+logs/*.txt
+!logs/.gitkeep
+.env
+.DS_Store
+.vscode/

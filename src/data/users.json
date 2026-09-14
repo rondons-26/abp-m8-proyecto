@@ -1,0 +1,34 @@
+{
+    "users": [
+        {
+            "firstname": "Maria",
+            "lastname": "Villa",
+            "email": "maria_villa@gmail.com",
+            "id": "31a3be64-8dc2-476d-b144-7a46bf305bbe"
+        },
+        {
+            "firstname": "Samuel",
+            "lastname": "Madariaga",
+            "email": "samuel@gmail.com",
+            "id": "25b0d513-0d47-4836-adf3-45ce95af7604"
+        },
+        {
+            "firstname": "Marta",
+            "lastname": "Diaz",
+            "email": "martadiaz@gmail.com",
+            "id": "21c14807-bea1-4fa4-afa3-ed12099219f2"
+        },
+        {
+            "firstname": "Dario",
+            "lastname": "Diaz",
+            "email": "dario@gmail.com",
+            "id": "57a39c6c-b305-4e0b-a2a4-09b6d16fa985"
+        },
+        {
+            "firstname": "Juan",
+            "lastname": "Ubilla",
+            "email": "juan_ubilla@gmail.com",
+            "id": "7a84028b-2cb2-4cc9-9af9-54ed14d3fc02"
+        }
+    ]
+}

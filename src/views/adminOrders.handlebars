@@ -1,0 +1,243 @@
+<div class="container py-4">
+    <div class="row g-4">
+    
+        {{> sidebar}}
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="col-12 col-md-9 col-xl-9">
+            <!-- HERO HEADER -->
+            <div class="card border-0 shadow-sm rounded-4 bg-primary text-white py-3 px-4 mb-4">
+                <div class="row align-items-center">
+                    <div class="col-lg-12">
+                        <h4 class="fw-bold mb-1">Pedidos de Clientes</h4>
+                        <p class="small opacity-75 mb-0">
+                            Historial general de compras procesadas, seguimiento de envíos y trazabilidad en tiempo real.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            {{#if orders.length}}
+            <!-- TABLA PEDIDOS -->
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+                <div class="p-3 bg-white border-bottom d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="text-secondary fw-semibold small ps-2"><i class="bi bi-filter me-1"></i> Filtros rápidos:</span>
+                        <!-- FILTRO POR ESTADOS -->
+                        <select id="statusFilterSelect" class="form-select form-select-sm border-0 bg-light rounded-pill px-3 shadow-none" style="width: 158px;">
+                            <option value="">Todos los estados</option>
+                            <option value="Procesando">Procesando</option>
+                            <option value="Enviado">Enviado</option>
+                            <option value="Entregado">Entregado</option>
+                        </select>
+                    </div>
+                    <div class="w-100" style="max-width: 320px;">
+                        <div class="input-group input-group-sm">
+                            <span class="input-group-text bg-light border-0 text-muted ps-3 rounded-start-pill">
+                                <i class="bi bi-search"></i>
+                            </span>
+                            <input type="text" id="orderSearchInput" class="form-control border-0 bg-light py-2 shadow-none" placeholder="Buscar por ID (Ej: 1002)..." autocomplete="off">
+                            <button class="btn btn-light text-muted border-0 rounded-end-pill px-3" type="button" id="clearOrderSearch" style="display: none;">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light border-bottom">
+                            <tr>
+                                <th class="ps-4">ID Pedido / Fecha</th>
+                                <th>Cliente</th>
+                                <th>Monto Total</th>
+                                <th>Pago</th>
+                                <th>Estado</th>
+                                <th class="text-end pe-4">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                            {{#each orders}}
+                            <tr class="order-row" data-ordernumber="{{this.orderNumber}}" data-status="{{#if this.isDelivered}}Entregado{{else if this.isShipped}}Enviado{{else}}Procesando{{/if}}">
+                                <td class="ps-4">
+                                    <span class="fw-bold text-primary d-block">#{{this.orderNumber}}</span>
+                                    <span class="text-muted" style="font-size: 0.75rem;">
+                                        <i class="bi bi-clock me-1"></i>{{formatDate this.createdAt}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <strong class="text-dark">{{this.customer.firstname}} {{this.customer.lastname}}</strong>
+                                </td>
+                                <td class="fw-bold text-dark">{{formatCLP this.totalAmount}}</td>
+                                <td>
+                                    <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-2 py-1 fw-semibold">
+                                        <i class="bi bi-check-circle-fill me-1"></i> Completado
+                                    </span>
+                                </td>
+                                <td>
+                                    {{#if this.isDelivered}}
+                                    <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle px-2 py-1">Entregado</span>
+                                    {{else if this.isShipped}}
+                                    <span class="badge bg-info bg-opacity-10 text-info border border-info-subtle px-2 py-1">Enviado</span>
+                                    {{else}}
+                                    <span class="badge bg-warning bg-opacity-10 text-warning border border-warning-subtle px-2 py-1">Procesando</span>
+                                    {{/if}}
+                                </td>
+                                <td class="text-end pe-4">
+                                    <button class="btn btn-sm btn-outline-primary rounded-3 px-3" data-bs-toggle="modal" data-bs-target="#orderAdminModal{{@index}}">
+                                        <i class="bi bi-eye me-1"></i> Ver
+                                    </button>
+                                </td>
+                            </tr>
+                            {{/each}}
+                            <tr id="noSearchMatchRow" style="display: none;">
+                                <td colspan="6" class="text-center py-4 text-muted">
+                                    <i class="bi bi-search display-6 d-block mb-2 text-secondary opacity-50"></i>
+                                    No se encontró ningún pedido que coincida con los filtros aplicados.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- MODAL DE DETALLE -->
+            {{#each orders}}
+            <div class="modal fade" id="orderAdminModal{{@index}}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-centered">
+                    <div class="modal-content border-0 shadow rounded-4 overflow-hidden">
+            
+                        <!-- HEADER MODAL -->
+                        <div class="modal-header bg-light px-4 py-3 border-bottom">
+                            <div>
+                                <h5 class="fw-bold mb-0 text-dark">Detalle del Pedido <span class="text-primary">#{{this.orderNumber}}</span></h5>
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar-event me-1"></i>Registrado el: <span class="fw-semibold text-dark">{{formatDate this.createdAt}}</span>
+                                </small>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body p-4">
+                            <div class="row g-4">
+                                <!-- COLUMNA IZQUIERDA -->
+                                <div class="col-lg-6 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <!-- INFORMACIÓN CLIENTE -->
+                                        <div class="mb-3">
+                                            <h6 class="fw-bold text-dark mb-2"><i class="bi bi-person-circle text-primary me-2"></i>Información del Cliente</h6>
+                                            <div class="bg-light rounded-3 p-3">
+                                                <div class="row g-2 small text-secondary">
+                                                    <div class="col-6"><strong class="text-dark d-block">Nombre:</strong> {{this.customer.firstname}} {{this.customer.lastname}}</div>
+                                                    <div class="col-6"><strong class="text-dark d-block">Correo:</strong> {{this.customer.email}}</div>
+                                                    <div class="col-6"><strong class="text-dark d-block">RUT:</strong> {{this.customer.rut}}</div>
+                                                    <div class="col-6"><strong class="text-dark d-block">Teléfono:</strong> {{this.customer.phone}}</div>
+                                                    <div class="col-12"><strong class="text-dark d-block">Dirección:</strong> {{this.customer.address}}</div>
+                                                    <div class="col-6"><strong class="text-dark d-block">Región:</strong> {{this.customer.region}}</div>
+                                                    <div class="col-6"><strong class="text-dark d-block">Comuna:</strong> {{this.customer.commune}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- ESTADO Y SEGUIMIENTO -->
+                                    <div class="pt-2 border-top">
+                                        <h6 class="fw-bold text-dark mb-2"><i class="bi bi-truck text-primary me-2"></i>Gestión Logística</h6>
+                                        <form class="statusUpdateForm" data-ordernumber="{{this.orderNumber}}">
+                                            <div class="row g-2">
+                                                <div class="col-sm-6">
+                                                    <label class="form-label text-muted small fw-bold">Estado</label>
+                                                    <select class="form-select form-select-sm statusSelect rounded-3" {{#if this.isDelivered}}disabled{{/if}}>
+                                                        <option value="Procesando" {{#if this.isProcessing}}selected{{/if}} {{#unless this.isProcessing}}disabled style="background-color: #f8f9fa; color: #adb5bd;"{{/unless}}>Procesando</option>
+                                                        <option value="Enviado" {{#if this.isShipped}}selected{{/if}} {{#unless this.isProcessing}}disabled style="background-color: #f8f9fa; color: #adb5bd;"{{/unless}}>Enviado</option>
+                                                        <option value="Entregado" {{#if this.isDelivered}}selected{{/if}}>Entregado</option>
+                                                    </select>
+                                                </div>
+                        
+                                                <div class="col-sm-6 trackingContainer {{#if this.isProcessing}}d-none{{/if}}">
+                                                    <label class="form-label text-muted small fw-bold">N° Seguimiento</label>
+                                                    <input type="text" class="form-control form-control-sm trackingInput rounded-3" value="{{this.trackingNumber}}" placeholder="Ej: STG-987654" {{#if this.hasTracking}}disabled{{/if}}>
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-3 text-end">
+                                                {{#if this.isDelivered}}
+                                                <div class="alert alert-success py-1 px-2 mb-0 small text-start d-inline-block">
+                                                    <i class="bi bi-check-circle-fill me-1"></i> Pedido Entregado y Bloqueado.
+                                                </div>
+                                                {{else}}
+                                                <button type="submit" class="btn btn-primary btn-sm rounded-3 px-4 updateStatusBtn">
+                                                    <i class="bi bi-save me-1"></i> Guardar Cambios
+                                                </button>
+                                                {{/if}}
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <!-- COLUMNA DERECHA -->
+                                <div class="col-lg-6 d-flex flex-column">
+                                    <h6 class="fw-bold text-dark mb-2">
+                                        <i class="bi bi-box-seam text-primary me-2"></i>Productos Comprados
+                                    </h6>
+                  
+                                    <div class="border rounded-3 overflow-hidden flex-grow-1" style="max-height: 380px; overflow-y: auto;">
+                                        <table class="table table-sm align-middle mb-0">
+                                            <thead class="table-light sticky-top">
+                                                <tr>
+                                                    <th class="py-2 ps-3">Producto & SKU</th>
+                                                    <th class="py-2 text-center">Cant.</th>
+                                                    <th class="py-2 text-end pe-3">Subtotal</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {{#each this.items}}
+                                                <tr>
+                                                    <td class="ps-3 py-2">
+                                                        <div class="d-flex align-items-center">
+                                                            <img src="{{this.image}}" 
+                                                                alt="{{this.product}}" 
+                                                                class="rounded-2 object-fit-cover shadow-sm me-2" 
+                                                                style="width: 38px; height: 38px;" 
+                                                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                                                            >
+                                                            <div class="bg-light border rounded-2 text-muted align-items-center justify-content-center me-2 shadow-sm" style="width: 38px; height: 38px; display: none; font-size: 0.65rem;">
+                                                                <i class="bi bi-image text-secondary"></i>
+                                                            </div>
+                                                            <div>
+                                                                <span class="fw-semibold text-dark d-block" style="line-height: 1.2;">{{this.product}}</span>
+                                                                <span class="badge bg-light text-secondary border font-monospace px-1 py-0 mt-0.5" style="font-size: 0.68rem;">
+                                                                    {{this.sku}}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center py-2">{{this.quantity}} u.</td>
+                                                    <td class="text-end pe-3 py-2 fw-semibold text-primary">{{formatCLP this.amount}}</td>
+                                                </tr>
+                                                {{/each}}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+
+            {{else}}
+            <div class="card border-0 rounded-4 text-center p-5 bg-white shadow-sm">
+                <div class="py-4">
+                    <i class="bi bi-bag-x fs-1 text-secondary mb-2"></i>
+                    <h4 class="fw-bold text-dark">No hay pedidos registrados</h4>
+                    <p class="text-secondary small mb-0">Cuando los clientes realicen compras se reflejarán en este panel.</p>
+                </div>
+            </div>
+            {{/if}}
+        </main>
+    </div>
+</div>
+
+<script src="/assets/js/adminOrders.js"></script>

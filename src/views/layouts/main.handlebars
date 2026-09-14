@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="light">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{{#if title}}{{title}} - CoreApp Enterprise{{else}}CoreApp Enterprise{{/if}}</title>
+
+        {{> vendors}}
+
+    </head>
+
+    <body class="d-flex flex-column min-vh-100 bg-light">
+
+        <!-- SELECCION DINÁMICA NAVBAR -->
+        {{#if isAuthPage}}
+            {{> authNavbar}}
+        {{else if isShopView}}
+            {{> shopNavbar}}
+        {{else if isProfileView}}
+            {{> shopNavbar}}
+        {{else if isAdminView}}
+            {{> adminNavbar}}
+        {{else}}
+            {{> navbar}}
+        {{/if}}
+
+        <!-- CONTENIDO DINÁMICO VISTAS -->
+        <main class="main-content flex-grow-1">
+            {{{body}}}
+        </main>
+
+        <!-- FOOTER GLOBAL -->
+        {{> footer}}
+
+        <script src="/assets/js/navbar.js"></script>
+    </body>
+</html>

@@ -1,0 +1,294 @@
+<div class="container py-4">
+    <div class="row g-4">
+    
+        {{> sidebar}}
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="col-12 col-md-9 col-xl-9">
+      
+            <!-- HERO HEADER -->
+            <div class="card border-0 shadow-sm rounded-4 bg-primary text-white py-3 px-4 mb-4">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h4 class="fw-bold mb-1">Administradores del Sistema</h4>
+                        <p class="small opacity-75 mb-0">
+                            Gestione las cuentas de usuarios con privilegios administrativos.
+                        </p>
+                    </div>
+                    <div class="col-lg-4 text-lg-end mt-2 mt-lg-0">
+                        <button type="button" class="btn btn-light text-primary fw-bold rounded-3 px-3 py-2 shadow-sm" data-bs-toggle="modal" data-bs-target="#addAdminModal">
+                            <i class="bi bi-shield-lock-fill me-1"></i> Crear Administrador
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {{#if users}}
+            <div class="card border-0 rounded-4 shadow-sm overflow-hidden bg-white">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light border-bottom">
+                            <tr>
+                                <th class="ps-4">N°</th>
+                                <th>Administrador</th>
+                                <th>Correo Electrónico</th>
+                                <th>Rol</th>
+                                <th class="text-end pe-4">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            {{#each users}}
+                            <tr>
+                                <td class="ps-4 fw-mono text-secondary small">#{{#addOne @index}}{{/addOne}}</td>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="avatar-circle bg-primary bg-opacity-10 text-primary fw-bold rounded-circle d-flex align-items-center justify-content-center" style="width:38px; height:38px;">
+                                            {{firstname.[0]}}{{lastname.[0]}}
+                                        </div>
+                                        <div class="fw-semibold text-dark">{{firstname}} {{lastname}}</div>
+                                    </div>
+                                </td>
+                                <td class="text-secondary">{{email}}</td>
+                                <td>
+                                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-1 rounded-2">
+                                        <i class="bi bi-shield-check me-1"></i>Admin
+                                    </span>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-outline-info btn-ver-detalle rounded-2 me-1" 
+                                            data-id="{{id}}" 
+                                            data-firstname="{{firstname}}" 
+                                            data-lastname="{{lastname}}" 
+                                            data-email="{{email}}"
+                                            title="Ver Detalle"
+                                            >
+                                                <i class="bi bi-eye"></i>
+                                        </button>
+
+                                        <button class="btn btn-outline-warning btn-editar-admin rounded-2 me-1" 
+                                            data-id="{{id}}" 
+                                            data-firstname="{{firstname}}" 
+                                            data-lastname="{{lastname}}" 
+                                            data-email="{{email}}"
+                                            title="Editar Administrador"
+                                            >
+                                                <i class="bi bi-pencil"></i>
+                                        </button>
+                                  
+                                        <button class="btn btn-outline-danger btn-eliminar rounded-2" data-id-user="{{id}}" title="Eliminar Admin">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {{else}}
+            <div class="card border-0 rounded-4 text-center p-5 bg-white shadow-sm">
+                <div class="py-4">
+                    <i class="bi bi-shield-slash fs-1 text-secondary mb-2"></i>
+                    <h4 class="fw-bold text-dark">No hay administradores registrados</h4>
+                    <p class="text-secondary small mb-3">Registra el primer administrador con acceso al sistema.</p>
+                    <button class="btn btn-primary btn-sm rounded-3 px-3" data-bs-toggle="modal" data-bs-target="#addAdminModal">
+                        Agregar Admin
+                    </button>
+                </div>
+            </div>
+            {{/if}}
+
+        </main>
+    </div>
+</div>
+
+<!-- MODAL CREAR ADMINISTRADOR -->
+<div class="modal fade" id="addAdminModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+            <div class="modal-header bg-primary text-white p-4">
+                <h5 class="modal-title fw-bold"><i class="bi bi-person-plus-fill me-2"></i>Nuevo Administrador</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4 bg-white">
+                <form id="addAdminForm">
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label for="firstname" class="form-label fw-bold">Nombre</label>
+                            <input type="text" class="form-control rounded-3" id="firstname" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="lastname" class="form-label fw-bold">Apellido</label>
+                            <input type="text" class="form-control rounded-3" id="lastname" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-bold">Correo Electrónico</label>
+                        <input type="email" class="form-control rounded-3" id="email" required>
+                    </div>
+          
+                    <div class="mb-4">
+                        <label for="password" class="form-label fw-bold">Contraseña Inicial</label>
+                        <div class="position-relative">
+                            <input type="password" class="form-control rounded-3 pe-5" id="password" placeholder="••••••••" required>
+                            <button 
+                                type="button" 
+                                class="btn btn-link text-secondary position-absolute top-50 end-0 translate-middle-y me-2 text-decoration-none toggle-password p-0 border-0" 
+                                style="line-height: 1;"
+                                data-target="password"
+                                tabindex="-1"
+                                >
+                                    <i class="bi bi-eye-slash fs-6" id="toggleIcon-password"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="role" value="admin">
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="button" class="btn btn-outline-secondary rounded-3" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary rounded-3 px-4 fw-bold">Guardar Administrador</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL EDITAR ADMINISTRADOR -->
+<div class="modal fade" id="editAdminModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+            <div class="modal-header bg-warning text-dark p-4">
+                <h5 class="modal-title fw-bold"><i class="bi bi-pencil-square me-2"></i>Editar Administrador</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4 bg-white">
+                <form id="editAdminForm">
+                    <input type="hidden" id="edit-admin-id">
+          
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label for="edit-firstname" class="form-label fw-bold">Nombre</label>
+                            <input type="text" class="form-control rounded-3" id="edit-firstname" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="edit-lastname" class="form-label fw-bold">Apellido</label>
+                            <input type="text" class="form-control rounded-3" id="edit-lastname" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit-email" class="form-label fw-bold text-muted">Correo Electrónico <span class="fw-normal small">(No modificable)</span></label>
+                        <input type="email" class="form-control bg-light rounded-3 text-muted" id="edit-email" disabled>
+                    </div>
+
+                    <hr class="my-4 text-secondary opacity-25">
+
+                    <h6 class="fw-bold text-dark mb-3"><i class="bi bi-shield-lock me-1"></i> Cambiar Contraseña <span class="text-muted fw-normal small">(Opcional)</span></h6>
+          
+                    <div class="mb-3">
+                        <label for="edit-current-password" class="form-label small fw-bold">Contraseña Actual</label>
+                        <div class="position-relative">
+                            <input type="password" class="form-control rounded-3 pe-5" id="edit-current-password" placeholder="Contraseña actual">
+                            <button 
+                                type="button" 
+                                class="btn btn-link text-secondary position-absolute top-50 end-0 translate-middle-y me-2 text-decoration-none toggle-password p-0 border-0" 
+                                style="line-height: 1;"
+                                data-target="edit-current-password"
+                                tabindex="-1"
+                                >
+                                <i class="bi bi-eye-slash fs-6" id="toggleIcon-edit-current-password"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="row g-3 mb-1">
+                        <div class="col-md-6">
+                            <label for="edit-new-password" class="form-label small fw-bold">Nueva Contraseña</label>
+                            <div class="position-relative">
+                                <input type="password" class="form-control rounded-3 pe-5" id="edit-new-password" placeholder="Nueva">
+                                <button 
+                                    type="button" 
+                                    class="btn btn-link text-secondary position-absolute top-50 end-0 translate-middle-y me-2 text-decoration-none toggle-password p-0 border-0" 
+                                    style="line-height: 1;"
+                                    data-target="edit-new-password"
+                                    tabindex="-1"
+                                    >
+                                    <i class="bi bi-eye-slash fs-6" id="toggleIcon-edit-new-password"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="edit-confirm-password" class="form-label small fw-bold">Confirmar Nueva Contraseña</label>
+                            <div class="position-relative">
+                                <input type="password" class="form-control rounded-3 pe-5" id="edit-confirm-password" placeholder="Repetir">
+                                <button 
+                                    type="button" 
+                                    class="btn btn-link text-secondary position-absolute top-50 end-0 translate-middle-y me-2 text-decoration-none toggle-password p-0 border-0" 
+                                    style="line-height: 1;"
+                                    data-target="edit-confirm-password"
+                                    tabindex="-1"
+                                    >
+                                    <i class="bi bi-eye-slash fs-6" id="toggleIcon-edit-confirm-password"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- MENSAJE COINCIDENCIA CONTRASEÑAS -->
+                    <div class="mb-4">
+                        <small id="passwordMatchMsg" class="d-none fw-semibold"></small>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="button" class="btn btn-outline-secondary rounded-3" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-warning rounded-3 px-4 fw-bold text-dark">Actualizar Cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DE DETALLE DEL ADMINISTRADOR -->
+<div class="modal fade" id="userDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 rounded-4 shadow">
+            <div class="modal-header border-bottom">
+                <h5 class="modal-title fw-bold"><i class="bi bi-person-vcard me-2 text-primary"></i>Ficha de Administrador</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body p-4">
+                <div class="mb-3 p-3 bg-light rounded-3 border">
+                    <label class="text-secondary small fw-semibold d-block mb-1">ID SISTEMA</label>
+                    <code class="fs-6 text-primary fw-bold text-break" id="modal-user-id"></code>
+                </div>
+                <div class="row g-3">
+                    <div class="col-6">
+                        <label class="text-secondary small fw-semibold d-block">Nombre</label>
+                        <span class="fw-semibold text-dark" id="modal-user-firstname"></span>
+                    </div>
+                    <div class="col-6">
+                        <label class="text-secondary small fw-semibold d-block">Apellido</label>
+                        <span class="fw-semibold text-dark" id="modal-user-lastname"></span>
+                    </div>
+                    <div class="col-12">
+                        <label class="text-secondary small fw-semibold d-block">Correo Electrónico</label>
+                        <span class="fw-semibold text-dark" id="modal-user-email"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer border-top">
+                <button type="button" class="btn btn-secondary btn-sm rounded-3" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script defer src="/assets/js/listUsers.js"></script>
